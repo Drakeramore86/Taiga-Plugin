@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Time Entries</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h2>Time Entries</h2>
+    <p>Total time spent on all tasks: {{ total_time }}</p>
+    <form method="GET" action="">
+        {% csrf_token %}
+    <select name="user" onchange="this.form.submit()">
+        <option value="">-- Select User --</option>
+        {% for user in users %}
+            <option value="{{ user }}">{{ user }}</option>
+        {% endfor %}
+    </select>
+    </form>
+    <form method="get">
+        {% csrf_token %}
+    <select name="sprint">
+        {% for sprint in sprints %}
+            <option value="{{ sprint }}">{{ sprint }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Filter by sprint">
+    </form>
+    <table>
+        <tr>
+            <th>User ID</th>
+            <th>Task ID</th>
+            <th>Work Date</th>
+            <th>Entry Date</th>
+            <th>Spent Time</th>
+            <th>Task Title</th>
+            <th>Project Title</th>
+            <th>User Full Name</th>
+            <th>Task Status</th>
+        </tr>
+        {% for entry in time_entries %}
+            <tr>
+                <td>{{ entry.user_id }}</td>
+                <td>{{ entry.task_id }}</td>
+                <td>{{ entry.work_date }}</td>
+                <td>{{ entry.entry_date }}</td>
+                <td>{{ entry.spent_time }}</td>
+                <td>{{ entry.task_title }}</td>
+                <td>{{ entry.project_title }}</td>
+                <td>{{ entry.user_full_name }}</td>
+                <td>{{ entry.task_status }}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+<button onclick="location.href='{% url 'my_view' %}'">Back</button>
+</body>
+</html>
